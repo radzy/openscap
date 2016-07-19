@@ -31,6 +31,7 @@
  *      "Daniel Kopecek" <dkopecek@redhat.com>
  *      "Tomas Heinrich" <theinric@redhat.com>
  */
+/* Copyright (c) 2016 Wind River Systems */
 
 /*
  * runlevel probe:
@@ -83,8 +84,7 @@ struct runlevel_rep {
 };
 
 static int get_runlevel (struct runlevel_req *req, struct runlevel_rep **rep);
-
-#if defined(__linux__) || defined(__GLIBC__) || (defined(__SVR4) && defined(__sun))
+#if defined(__linux__) || defined(__GLIBC__) || (defined(__SVR4) && defined(__sun)) || defined(LINUX_DISTRO)
 static int get_runlevel_sysv (struct runlevel_req *req, struct runlevel_rep **rep, bool suse, const char *init_path, const char *rc_path)
 {
 	const char runlevel_list[] = {'0', '1', '2', '3', '4', '5', '6'};
@@ -269,6 +269,11 @@ static int get_runlevel_suse (struct runlevel_req *req, struct runlevel_rep **re
 	return (get_runlevel_sysv (req, rep, suse, init_path, rc_path));
 }
 
+static int get_runlevel_wrlinux (struct runlevel_req *req, struct runlevel_rep **rep)
+{
+	 return (-1);
+}
+
 static int get_runlevel_common (struct runlevel_req *req, struct runlevel_rep **rep)
 {
         return (-1);
@@ -327,6 +332,15 @@ static int is_solaris (void)
         return (stat ("/etc/release", &st)   == 0);
 }
 
+static int is_wrlinux (void)
+{
+	struct stat st;
+	int retval;
+	if ( retval = stat ("/etc/os-release", &st) != 0 ) return(retval);
+	if ( retval = stat ("/etc/wrlinux-release", &st) == 0 ) return(retval);
+	return(-1);
+}
+
 static int is_common (void)
 {
         return (1);
@@ -346,6 +360,7 @@ const distro_tbl_t distro_tbl[] = {
         { &is_mandriva, &get_runlevel_mandriva },
         { &is_suse,     &get_runlevel_suse     },
         { &is_solaris,  &get_runlevel_redhat   },
+        { &is_wrlinux,  &get_runlevel_wrlinux  },
         { &is_common,   &get_runlevel_common   }
 };
 

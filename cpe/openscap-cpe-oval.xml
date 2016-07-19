@@ -259,6 +259,19 @@
                         <criterion comment="Fedora 24 is installed" test_ref="oval:org.open-scap.cpe.fedora:tst:24"/>
                   </criteria>
             </definition>
+            <definition class="inventory" id="oval:org.open-scap.cpe.wrlinux:def:8" version="1">
+                  <metadata>
+                        <title>WR Linux 8</title>
+                        <affected family="unix">
+                            <platform>WR Linux 8</platform>
+                        </affected>
+                        <reference ref_id="cpe:/o:windriver:wrlinux:8" source="CPE"/>
+                        <description>The operating system installed on the system is WR Linux 8</description>
+                  </metadata>
+                  <criteria>
+                        <criterion comment="WR Linux 8 is installed" test_ref="oval:org.open-scap.cpe.wrlinux:tst:8"/>
+                  </criteria>
+            </definition>
             <definition class="inventory" id="oval:org.open-scap.cpe.fedora:def:25" version="1">
                   <metadata>
                         <title>Fedora 25</title>
@@ -449,6 +462,11 @@
                   <object object_ref="oval:org.open-scap.cpe.redhat-release:obj:3"/>
                   <state state_ref="oval:org.open-scap.cpe.rhel:ste:2"/>
             </rpmverifyfile_test>
+            <rpminfo_test check_existence="at_least_one_exists" id="oval:org.open-scap.cpe.wrlinux:tst:8" version="1" check="at least one" comment="wrlinux-release is version wrlinux 8"
+                  xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+                  <object object_ref="oval:org.open-scap.cpe.wrlinux-release:obj:2"/>
+                  <state state_ref="oval:org.open-scap.cpe.wrlinux:ste:8"/>
+            </rpminfo_test>
             <rpminfo_test check_existence="at_least_one_exists" id="oval:org.open-scap.cpe.rhel:tst:5" version="1" check="at least one" comment="redhat-release is version 5"
                   xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
                   <object object_ref="oval:org.open-scap.cpe.redhat-release:obj:1"/>
@@ -706,6 +724,9 @@
             </rpminfo_state>
             <rpminfo_state id="oval:org.open-scap.cpe.fedora:ste:25" version="1" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
                   <version operation="pattern match">^25$</version>
+            </rpminfo_state>
+            <rpminfo_state id="oval:org.open-scap.cpe.wrlinux:ste:8" version="1" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+                  <version operation="pattern match">^8$</version>
             </rpminfo_state>
             <rpminfo_state id="oval:org.open-scap.cpe.sles:ste:1" version="1" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
                   <name operation="pattern match">^sles-release</name>
